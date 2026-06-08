@@ -48,3 +48,16 @@ terraform destroy
 ```
 
 ## Repository Structure
+├── terraform/
+│   ├── main.tf           # All AWS resources
+│   ├── variables.tf      # Input variables
+│   ├── outputs.tf        # Output values
+│   └── terraform.tfvars  # Instance types, bucket name
+├── scripts/
+│   └── user-data.sh      # WordPress install + RDS config
+└── docs/
+└── report.md         # Project report
+
+## Based On
+
+Extended from [Assignment 05 - WordPress HA](https://github.com/mobile-os-dku-cis-mse/05-2-wp-with-ha-setting-metebar) with RDS, ASG, CloudWatch, and custom VPC added.
