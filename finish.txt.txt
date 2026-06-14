@@ -1,0 +1,17 @@
+Project: WordPress High Availability on AWS
+Student: 14 Metecan Barutcu
+Student ID: 32247318
+Date: June 2026
+
+Repository: https://github.com/metebar/final-project-metebar
+
+Deployed Resources:
+- VPC with public and private subnets (configured across multiple AZs)
+- ALB: wp-alb-1106887450.us-east-1.elb.amazonaws.com
+- ASG: wp-asg (min:1, max:3)
+- RDS: wp-rds.cz0mm48mk8n5.us-east-1.rds.amazonaws.com (MySQL 8.0)
+- S3: metecan-wp-media-2026
+- CloudWatch Alarms: wp-high-cpu (>70%), wp-low-cpu (<30%)
+
+All infrastructure deployed with Terraform.
+Auto scaling verified with ApacheBench load test.
