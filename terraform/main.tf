@@ -197,11 +197,12 @@ resource "aws_lb_target_group" "main" {
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
   health_check {
-    path                = "/wp-login.php"
+    path                = "/"
     interval            = 30
-    timeout             = 5
+    timeout             = 10
     healthy_threshold   = 2
-    unhealthy_threshold = 3
+    unhealthy_threshold = 5
+    matcher             = "200,301,302"
   }
 }
 

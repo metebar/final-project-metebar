@@ -66,6 +66,7 @@ The `main.tf` file includes these AWS resources:
 ```bash
 # 1. Configure AWS credentials
 aws configure
+aws configure set aws_session_token <token>
 
 # 2. Initialize Terraform
 cd terraform
@@ -83,7 +84,30 @@ terraform output alb_dns_name
 
 ---
 
-## 6. Concepts Applied
+## 6. Auto Scaling Test Results
+
+I used ApacheBench to test the auto scaling behavior.
+
+**Test command:**
+```bash
+ab -n 50000 -c 500 http://wp-alb-1106887450.us-east-1.elb.amazonaws.com/
+```
+
+**Results:**
+- Under high load, CPU utilization exceeded 70%
+- CloudWatch `wp-high-cpu` alarm triggered (In Alarm state)
+- ASG automatically launched a second EC2 instance
+- Total running instances increased from 1 to 2
+- ALB continued serving traffic without interruption during scaling
+
+**Self-healing test:**
+- During initial deployment, an instance failed ELB health checks
+- ASG automatically detected the failure and replaced it with a new healthy instance
+- This confirmed the high availability behavior works correctly
+
+---
+
+## 7. Concepts Applied
 
 | Course Topic | Used In This Project |
 |---|---|
@@ -94,10 +118,15 @@ terraform output alb_dns_name
 | ALB | Load balancing across ASG instances |
 | ASG | Auto scaling min:1 max:3 |
 | CloudWatch | CPU alarms for scaling triggers |
-| RDS | Managed MySQL database |
+| RDS | Managed MySQL 8.0 database |
+| Benchmarking | ApacheBench load testing to trigger scaling |
 
 ---
 
-## 7. Conclusion
+## 8. Conclusion
 
-This project brought together everything from the semester into one working deployment. The biggest improvement over Assignment 05 is that the database is now managed by RDS, which is more reliable, and the EC2 instances scale automatically based on actual traffic. All infrastructure is defined in Terraform so the whole setup can be reproduced with one command.
+This project brought together everything from the semester into one working deployment. The biggest improvement over Assignment 05 is that the database is now managed by RDS, which is more reliable, and the EC2 instances scale automatically based on actual traffic load.
+
+The auto scaling test confirmed that the system works correctly: when CPU exceeded 70% under ApacheBench load, CloudWatch triggered the scale-out policy and ASG launched a new instance automatically. The ALB distributed traffic to both instances without any downtime.
+
+All infrastructure is defined in Terraform, so the whole setup can be reproduced with a single `terraform apply` command.
