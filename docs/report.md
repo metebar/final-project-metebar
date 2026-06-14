@@ -19,7 +19,7 @@ I decided to extend my Assignment 05 WordPress setup instead of starting from sc
 
 The infrastructure consists of these components:
 
-- **VPC** with public and private subnets in 2 availability zones
+- **VPC** with public and private subnets configured across multiple availability zones
 - **ALB** receives HTTP traffic and distributes it to EC2 instances
 - **ASG** manages EC2 instances automatically (min: 1, max: 3)
 - **RDS MySQL 8.0** runs the WordPress database inside private subnets

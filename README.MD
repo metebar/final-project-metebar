@@ -4,6 +4,7 @@ A scalable, highly available WordPress deployment on AWS using Terraform for Inf
 
 ## Architecture
 
+- **VPC** — Custom VPC with public and private subnets configured across multiple AZs
 - **ALB** — Application Load Balancer distributes traffic across EC2 instances
 - **ASG** — Auto Scaling Group (min: 1, max: 3) scales based on CPU usage
 - **RDS** — Managed MySQL 8.0 database (replaces local MariaDB from previous assignments)
@@ -19,6 +20,12 @@ A scalable, highly available WordPress deployment on AWS using Terraform for Inf
 | Monitoring | None | **CloudWatch alarms** |
 | Networking | Default VPC | **Custom VPC + subnets** |
 | IaC | 3 separate terraform folders | **Single unified deployment** |
+
+## Screenshots
+
+| WordPress Site | CloudWatch Alarm | ASG Scale-Out |
+|---|---|---|
+| ![WordPress](docs/Screenshots/01-wordpress-site.png) | ![CloudWatch](docs/Screenshots/05-cloudwatch-high-cpu-alarm.png) | ![ASG](docs/Screenshots/04-ec2-two-instances.png) |
 
 ## Prerequisites
 
@@ -48,6 +55,8 @@ terraform destroy
 ```
 
 ## Repository Structure
+
+```
 ├── terraform/
 │   ├── main.tf           # All AWS resources
 │   ├── variables.tf      # Input variables
@@ -55,8 +64,12 @@ terraform destroy
 │   └── terraform.tfvars  # Instance types, bucket name
 ├── scripts/
 │   └── user-data.sh      # WordPress install + RDS config
-└── docs/
-└── report.md         # Project report
+├── docs/
+│   ├── report.md         # Project report
+│   └── Screenshots/      # Evidence screenshots
+├── finished.txt          # Deployment summary
+└── README.md
+```
 
 ## Based On
 
